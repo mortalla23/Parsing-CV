@@ -1,10 +1,5 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-import HomePage from '../views/HomePage.vue';
-
-// import Parser from '../views/Parser.vue'; // À créer si nécessaire
-
-Vue.use(VueRouter);
+import { createRouter, createWebHistory } from 'vue-router';
+import HomePage from './components/HomePage.vue'; // Chemin correct pour HomePage.vue
 
 const routes = [
   {
@@ -12,16 +7,10 @@ const routes = [
     name: 'HomePage',
     component: HomePage,
   },
-//   {
-//     path: '/parser',
-//     name: 'Parser',
-//     component: Parser,
-//   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
