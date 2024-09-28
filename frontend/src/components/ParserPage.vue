@@ -33,16 +33,13 @@
         jobDescription: '', // Contient la description du poste
         cvFile: null,       // Contient le fichier CV téléchargé
       };
-      // modification a prévoir // le fait de telecharger plusieurs cv a la fois
-      // si le fichoier est tele
+      // modification a prévoir ( le fait de telecharger plusieurs cv a la fois)
     },
     methods: {
       handleCVUpload(event) {
         this.cvFile = event.target.files[0]; // Récupère le fichier téléchargé
       },
 
-      // la variable a envoyer sur le serveur java s'appelle cvFile
-      // requette post pour envoyer la le cv au serveur java;l mettre dans un if pour s'assurer que le cv a bien ete telecharge
       uploadCV() {
         if (this.cvFile) {
           // Logique pour télécharger le CV
@@ -50,13 +47,12 @@
         } else {
           alert('Veuillez télécharger un CV');
         }
-        // fonction permettant l'envoie dans le serveur 
-        // la variable 
+        
       },
       visualizeResults() {
         if (this.cvFile && this.jobDescription) {
           // Logique pour visualiser les résultats de parsing
-          // requette post pour l'envoie au serveur java
+          // requette post pour l'envoie au serveur python ( backend/serveur-python.py ) par la route post http://localhost:5000/upload
           
 
           alert('Analyse lancée avec succès');
