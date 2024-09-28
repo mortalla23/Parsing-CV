@@ -1,7 +1,7 @@
 ### Parsing-CV
 
 ## lancer le server flask Parsing-CV/backend/serveur-python.py
-  telecharger python
+ # telecharger :
     pip install python
     pip install Flask
     pip install openai 
