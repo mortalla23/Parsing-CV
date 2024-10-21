@@ -3,11 +3,8 @@ import openai
 import os
 import time
 from flask import Flask, request, jsonify
-from flask import Flask
 from flask_cors import CORS
 
-app = Flask(__name__)
-CORS(app) 
 
 # Clés et identifiants OpenAI
 api_key = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -16,6 +13,7 @@ vector_store_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 # Configuration de l'application Flask
 app = Flask(__name__)
+CORS(app)
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -37,6 +35,7 @@ def creer_thread_si_besoin(session_state):
 def upload_file():
     # Vérifier que le fichier et la description du poste sont présents dans la requête
     if 'cv' not in request.files or 'jobDescription' not in request.form:
+        app.logger.error('No cv file part in the request')
         return jsonify({"error": "CV et description du poste requis"}), 400
     
     # Récupérer le fichier CV et la description du poste

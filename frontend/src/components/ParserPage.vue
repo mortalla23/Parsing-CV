@@ -47,8 +47,9 @@
         if (this.cvFiles.length > 0) {
           this.cvFiles.forEach(file => {
             const formData = new FormData();
-            formData.append('file', file);
-  
+            formData.append('cv', file);  // Utilise 'cv' si c'est ce que ton backend Flask attend
+            formData.append('jobDescription', this.jobDescription);  // Assure-toi que cette clé est attendue comme telle par le backend
+
             axios.post('http://localhost:5000/upload', formData)
               .then(() => {
                 alert(`CV téléchargé avec succès : ${file.name}`);
@@ -61,6 +62,7 @@
           alert('Veuillez sélectionner au moins un CV');
         }
       },
+
   
       // Envoie les fichiers CV et la description du poste pour analyse
       visualizeResults() {
