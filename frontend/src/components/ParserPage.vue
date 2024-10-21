@@ -26,43 +26,66 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  
   export default {
     name: 'ParserPage',
     data() {
       return {
         jobDescription: '', // Contient la description du poste
-        cvFile: null,       // Contient le fichier CV téléchargé
+        cvFiles: [],        // Contient les fichiers CV téléchargés
       };
-      // modification a prévoir ( le fait de telecharger plusieurs cv a la fois)
     },
     methods: {
+      // Gère le téléchargement de plusieurs fichiers CV
       handleCVUpload(event) {
-        this.cvFile = event.target.files[0]; // Récupère le fichier téléchargé
+        this.cvFiles = Array.from(event.target.files); // Récupère tous les fichiers téléchargés
       },
-
+  
+      // Télécharge les fichiers CV sur le serveur
       uploadCV() {
-        if (this.cvFile) {
-          // Logique pour télécharger le CV
-          alert('CV téléchargé : ' + this.cvFile.name);
+        if (this.cvFiles.length > 0) {
+          this.cvFiles.forEach(file => {
+            const formData = new FormData();
+            formData.append('file', file);
+  
+            axios.post('http://localhost:5000/upload', formData)
+              .then(() => {
+                alert(`CV téléchargé avec succès : ${file.name}`);
+              })
+              .catch(error => {
+                alert(`Erreur lors du téléchargement du CV : ${error.response?.data?.message || error.message}`);
+              });
+          });
         } else {
-          alert('Veuillez télécharger un CV');
+          alert('Veuillez sélectionner au moins un CV');
         }
-        
       },
+  
+      // Envoie les fichiers CV et la description du poste pour analyse
       visualizeResults() {
-        if (this.cvFile && this.jobDescription) {
-          // Logique pour visualiser les résultats de parsing
-          // requette post pour l'envoie au serveur python ( backend/serveur-python.py ) par la route post http://localhost:5000/upload
-          
-
-          alert('Analyse lancée avec succès');
+        if (this.cvFiles.length > 0 && this.jobDescription) {
+          const formData = new FormData();
+          this.cvFiles.forEach(file => {
+            formData.append('files', file);
+          });
+          formData.append('description', this.jobDescription);
+  
+          axios.post('http://localhost:5000/analyze', formData)
+            .then(response => {
+              alert('Analyse complétée avec succès: ' + response.data.result);
+            })
+            .catch(error => {
+              alert('Erreur lors de analyse des données: ' + error.response?.data?.message || error.message);
+            });
         } else {
-          alert('Veuillez télécharger un CV et entrer la description du poste');
+          alert('Veuillez télécharger un ou plusieurs CV et entrer la description du poste');
         }
       },
     },
   };
   </script>
+  
   
   <style scoped>
   .parser-page {

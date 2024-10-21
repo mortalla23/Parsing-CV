@@ -3,7 +3,8 @@
     <!-- Logo -->
     <div class="navbar-logo">
       <router-link to="/">
-        <img src="path-to-your-logo.png" alt="Logo" />
+        <img src="../assets/logo.png" alt="Logo" />
+
       </router-link>
       <h1>CV <span>Matcher</span></h1>
     </div>
